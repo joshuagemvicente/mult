@@ -49,20 +49,20 @@ export async function action({ request }: Route.ActionArgs) {
 
 
   if (!user) {
-    return dataWithError(null, { message: "Invalid email or password" })
+    return dataWithError("/login", { message: "Invalid email or password" })
   }
 
   const hashedPassword = user?.accounts[0]?.password;
 
   if (!hashedPassword) {
-    return dataWithError(null, { message: "Invalid email or password" })
+    return dataWithError("/login", { message: "Invalid email or password" })
   }
 
   const ctx = await auth.$context;
   const isMatch = await ctx.password.verify({ password, hash: hashedPassword });
 
   if (!isMatch) {
-    return dataWithError(null, { message: "Invalid email or password" })
+    return dataWithError("/login", { message: "Invalid email or password" })
   }
 
   const { headers } = await auth.api.signInEmail({

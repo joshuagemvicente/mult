@@ -8,7 +8,12 @@ layout("routes/auth/auth-layout.tsx", [
 
 layout("./routes/modules/_layout.tsx", [
   ...prefix("dashboard", [
-    index("./routes/modules/dashboard/index.tsx"),
+    index("./routes/modules/dashboard/_index.tsx"),
+    ...prefix("products", [
+      index("./routes/modules/dashboard/products/_index.tsx"),
+      route(":productId", "./routes/modules/dashboard/products/$id.tsx"),
+      route("add", "./routes/modules/dashboard/products/add.tsx")
+    ])
   ])
 ]),
 
