@@ -1,9 +1,6 @@
 import { z } from "zod"
+import { BaseProductSchema } from "./product.dto"
 
+export const CreateProductSchema = BaseProductSchema;
 
-export const createProductSchema = z.object({
-  name: z.string().min(1, "Name is required"),
-  description: z.string().optional(),
-
-
-})
+export type CreateProductDTO = z.infer<typeof CreateProductSchema>
