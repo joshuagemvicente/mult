@@ -9,7 +9,16 @@ export async function getAllProducts() {
 
   // tbmodified for the pagination and filter
   return products
+}
 
+export async function getProductById(id: string) {
+  const product = await prisma.product.findUnique({
+    where: {
+      id
+    }
+  })
+
+  return product ? product : data("This product does not exist.");
 }
 
 
@@ -42,3 +51,23 @@ export async function createProduct(submission: CreateProductDTO) {
   return createdProduct
 
 }
+
+export async function deleteProduct(id: string) {
+  const product = await prisma.product.findUnique({
+    where: {
+      id
+    }
+  })
+
+  if (!product) {
+    return data("This product does not exist.")
+  }
+
+  await prisma.product.delete({
+    where: {
+      id
+    }
+  })
+
+}
+
