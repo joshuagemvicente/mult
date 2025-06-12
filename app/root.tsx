@@ -1,13 +1,18 @@
 import {
+  data,
   isRouteErrorResponse,
   Links,
   Meta,
   Outlet,
   Scripts,
   ScrollRestoration,
+  useLoaderData,
+  type LoaderFunctionArgs,
 } from "react-router";
-
 import type { Route } from "./+types/root";
+import { getToast } from "remix-toast";
+import { Toaster, toast as notify } from "sonner"
+import { useEffect } from "react";
 import "./app.css";
 
 export const links: Route.LinksFunction = () => [
@@ -23,7 +28,26 @@ export const links: Route.LinksFunction = () => [
   },
 ];
 
+export async function loader({ request }: LoaderFunctionArgs) {
+  const { toast, headers } = await getToast(request);
+
+  return data({ toast }, { headers })
+}
+
+
+
 export function Layout({ children }: { children: React.ReactNode }) {
+  const { toast } = useLoaderData<typeof loader>()
+
+  useEffect(() => {
+    if (toast?.type === "error") {
+      notify.error(toast.message)
+    }
+    if (toast?.type === "success") {
+      notify.success(toast.message)
+    }
+  }, [toast])
+
   return (
     <html lang="en">
       <head>
@@ -36,6 +60,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
         {children}
         <ScrollRestoration />
         <Scripts />
+        <Toaster richColors position="top-right" closeButton={true} />
       </body>
     </html>
   );

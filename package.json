@@ -6,7 +6,11 @@
     "build": "react-router build",
     "dev": "react-router dev",
     "start": "react-router-serve ./build/server/index.js",
-    "typecheck": "react-router typegen && tsc"
+    "typecheck": "react-router typegen && tsc",
+    "db:generate": "prisma generate -schema=./prisma/schema/",
+    "db:push": "prisma db push -schema=./prisma/schema/",
+    "db:pull": "prisma db pull -schema=./prisma/schema/",
+    "db:studio": "prisma studio -schema=./prisma/schema/"
   },
   "dependencies": {
     "@conform-to/react": "^1.6.1",
@@ -41,6 +45,7 @@
     "@radix-ui/react-tooltip": "^1.2.7",
     "@react-router/node": "^7.5.3",
     "@react-router/serve": "^7.5.3",
+    "@tanstack/react-table": "^8.21.3",
     "better-auth": "^1.2.9",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
@@ -75,5 +80,8 @@
     "typescript": "^5.8.3",
     "vite": "^6.3.3",
     "vite-tsconfig-paths": "^5.1.4"
+  },
+  "prisma": {
+    "schema": "./prisma/schema"
   }
 }

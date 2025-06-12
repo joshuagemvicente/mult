@@ -31,12 +31,23 @@ export function SignupForm() {
       </CardHeader>
 
       <CardContent>
-        <Form {...getFormProps(form)} className="space-y-4">
+        <Form method="post" {...getFormProps(form)} className="space-y-4">
           <div className="space-y-2">
             <Label htmlFor="name">Full Name</Label>
             <div className="relative">
               <User className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-              <Input {...getInputProps(fields.name, { type: "text" })} id="name" type="text" placeholder="Juan Dela Cruz" className="pl-10" required />
+              <Input {...getInputProps(fields.name, { type: "text" })} id="name" type="text" placeholder="Juan Dela Cruz" className="pl-10 " />
+
+              {fields.name.errors && fields.name.errors.length > 0 && (
+                <div
+                  id={fields.name.errorId}
+                  className="text-red-500 text-sm"
+                >
+                  {fields.name.errors.map((err, i) => (
+                    <p key={i}>{err}</p>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
 
@@ -44,7 +55,14 @@ export function SignupForm() {
             <Label htmlFor="email">Email</Label>
             <div className="relative">
               <Mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-              <Input {...getInputProps(fields.email, { type: "email" })} id="email" type="email" placeholder="your@email.com" className="pl-10" required />
+              <Input {...getInputProps(fields.email, { type: "email" })} id="email" type="email" placeholder="your@email.com" className="pl-10" />
+              {fields.email.errors && (
+                <div id={fields.email.errorId} className="text-red-500 text-sm">
+                  {fields.email.errors.map((err, i) => (
+                    <p key={i}>{err}</p>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
 
@@ -52,11 +70,18 @@ export function SignupForm() {
             <Label htmlFor="password">Password</Label>
             <div className="relative">
               <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-              <Input {...getInputProps(fields.password, { type: "password" })} id="password" type="password" placeholder="••••••••" className="pl-10" required />
+              <Input {...getInputProps(fields.password, { type: "password" })} id="password" type="password" placeholder="••••••••" className="pl-10" />
+              {fields.password.errors && (
+                <div id={fields.password.errorId} className="text-red-500 text-sm">
+                  {fields.password.errors.map((err, i) => (
+                    <p key={i}>{err}</p>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
 
-          <Button form={form.id} type="submit" className="w-full" >
+          <Button type="submit" className="w-full" >
             Create account
             {/* {isLoading ? "Creating account..." : "Create Account"} */}
           </Button>

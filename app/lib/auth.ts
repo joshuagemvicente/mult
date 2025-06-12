@@ -13,6 +13,15 @@ export const auth = betterAuth({
   },
   advanced: {
     cookiePrefix: "__session",
+    cookies: {
+      session_token: {
+        attributes: {
+          httpOnly: true,
+          secure: true,
+          sameSite: "lax",
+        }
+      }
+    }
   }
 
 })

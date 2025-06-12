@@ -1,4 +1,10 @@
-import { Outlet } from "react-router"
+import { Outlet, type LoaderFunctionArgs } from "react-router"
+import { auth } from "~/lib/auth"
+
+
+
+
+
 export default function AuthLayout() {
   return (
     <div className="min-h-screen flex">
@@ -9,7 +15,7 @@ export default function AuthLayout() {
       </div>
 
       <div className="flex-1 relative hidden md:block">
-        <img src="/placeholder.svg?height=800&width=600" alt="Sari-sari store" className="w-full h-full object-cover" />
+        {/* <img src="/placeholder.svg?height=800&width=600" alt="Sari-sari store" className="w-full h-full object-cover" /> */}
         <div className="absolute inset-0 bg-black/40"></div>
         <div className="absolute inset-0 flex items-center justify-center">
           <div className="text-center text-white p-8">

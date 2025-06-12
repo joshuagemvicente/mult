@@ -31,7 +31,7 @@ export function LoginForm() {
         </CardHeader>
 
         <CardContent>
-          <Form {...getFormProps(form)} className="space-y-4">
+          <Form method="post" {...getFormProps(form)} className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="email">Email</Label>
               <div className="relative">
@@ -53,7 +53,7 @@ export function LoginForm() {
               </div>
             </div>
 
-            <Button form={form.id} type="submit" className="w-full" >
+            <Button type="submit" className="w-full" >
               Sign in
               {/* {isLoading ? "Signing in..." : "Sign In"} */}
             </Button>
