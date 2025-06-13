@@ -1,14 +1,96 @@
 import { data } from "react-router";
-import { dataWithError } from "remix-toast";
 import type { CreateProductDTO } from "~/dtos/products/createProduct.dto";
+import type { Pagination } from "~/types/pagination";
 import { prisma } from "~/lib/prisma";
+import { Prisma } from "@prisma/client";
+import { dataWithError } from "remix-toast";
 
+export type ProductFilter = {
+  search?: string;
+  name?: string;
+  minPrice?: number;
+  maxPrice?: number;
+  minStock?: number;
+  maxStock?: number;
+  brand?: string;
+}
 
-export async function getAllProducts() {
-  const products = await prisma.product.findMany()
+export type ProductsResponse = {
+  products: Awaited<ReturnType<typeof prisma.product.findMany>>;
+  totalCount: number;
+  totalPages: number;
+}
 
-  // tbmodified for the pagination and filter
-  return products
+export async function getAllProducts(
+  pagination?: Pagination,
+  filters?: ProductFilter
+): Promise<ProductsResponse> {
+  const { pageNumber = 1, pageSize = 10, sortBy = "createdAt", sortOrder = "desc" } = pagination || {};
+
+  // let where: Prisma.ProductUpsertArgswhat = {};
+  let where: any = {}
+
+  const conditions: any[] = [];
+
+  if (filters?.search) {
+    conditions.push({
+      OR: [
+        { name: { contains: filters.search, mode: "insensitive" } },
+        { sku: { contains: filters.search, mode: "insensitive" } },
+        { description: { contains: filters.search, mode: "insensitive" } },
+      ],
+    });
+  }
+
+  if (filters?.minPrice !== undefined || filters?.maxPrice !== undefined) {
+    const priceFilter: any = {};
+    if (filters?.minPrice !== undefined) {
+      priceFilter.gte = filters.minPrice;
+    }
+    if (filters?.maxPrice !== undefined) {
+      priceFilter.lte = filters.maxPrice;
+    }
+    conditions.push({ price: priceFilter });
+  }
+
+  if (filters?.minStock !== undefined || filters?.maxStock !== undefined) {
+    const stockFilter: any = {};
+    if (filters?.minStock !== undefined) {
+      stockFilter.gte = filters.minStock;
+    }
+    if (filters?.maxStock !== undefined) {
+      stockFilter.lte = filters.maxStock;
+    }
+    conditions.push({ stock: stockFilter });
+  }
+
+  if (filters?.brand) {
+    conditions.push({ brand: filters.brand });
+  }
+
+  if (conditions.length > 0) {
+    where = { AND: conditions };
+  }
+
+  const totalCount = await prisma.product.count({ where });
+  const totalPages = Math.ceil(totalCount / pageSize);
+
+  const orderBy = {
+    [sortBy]: sortOrder,
+  };
+
+  const products = await prisma.product.findMany({
+    where,
+    orderBy,
+    skip: (pageNumber - 1) * pageSize,
+    take: pageSize,
+  });
+
+  return {
+    products,
+    totalCount,
+    totalPages,
+  };
 }
 
 export async function getProductById(id: string) {
@@ -38,7 +120,7 @@ export async function createProduct(submission: CreateProductDTO) {
   })
 
   if (product) {
-    return data("This product already exists")
+    return dataWithError("This product already exists.");
   }
 
   const createdProduct = await prisma.product.create({
@@ -60,7 +142,7 @@ export async function deleteProduct(id: string) {
   })
 
   if (!product) {
-    return data("This product does not exist.")
+    return dataWithError("This product does not exist.")
   }
 
   await prisma.product.delete({
