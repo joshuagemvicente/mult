@@ -49,4 +49,5 @@ export async function action({ request }: Route.ActionArgs) {
     }
   })
 
-}
+  return redirectWithSuccess("/dashboard/products", "Product has been created successfully.")
+};

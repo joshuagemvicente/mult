@@ -4,7 +4,8 @@ import { columns } from '~/columns/products.columns';
 import { DataTable } from '~/components/shared/data-table';
 import { Button } from '~/components/ui/button';
 import type { Route } from '../+types/_index';
-import { getAllProducts } from '~/utils/products.server';
+import { deleteProduct, getAllProducts } from '~/utils/products.server';
+import { redirectWithSuccess } from 'remix-toast';
 
 
 export async function loader({ request }: Route.LoaderArgs) {
@@ -42,5 +43,15 @@ export default function Products() {
       </div>
     </div>
   )
+
+}
+
+
+export async function action({ request }: Route.ActionArgs) {
+  const formData = await request.formData()
+  const id = formData.get("id")
+  await deleteProduct(String(id))
+
+  return redirectWithSuccess("/dashboard/products", "Product has been deleted.")
 
 }

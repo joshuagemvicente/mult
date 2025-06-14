@@ -4,7 +4,7 @@ import { Button } from "../components/ui/button";
 import { ArrowUpDown, Ellipsis } from "lucide-react";
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuItem, DropdownMenuContent, DropdownMenuSeparator } from "../components/ui/dropdown-menu";
 import { toCurrency } from "~/utils/toCurrency";
-import { Link } from "react-router"
+import { Form, Link } from "react-router"
 
 export type ProductTableColumns = {
   id: string;
@@ -32,10 +32,18 @@ export const columns: ColumnDef<ProductTableColumns>[] = [
       </Button>
     ),
     accessorKey: "name",
+    cell: ({ row }) => {
+      const name = row.original.name
+      return <div className="font-medium">{name}</div>;
+    }
   },
   {
     header: "SKU",
     accessorKey: "sku",
+    cell: ({ row }) => {
+      const sku = row.original.sku
+      return <div className="font-medium">{sku}</div>;
+    }
   },
   {
     header: ({ column }) => (
@@ -67,7 +75,6 @@ export const columns: ColumnDef<ProductTableColumns>[] = [
     accessorKey: "stock",
     cell: ({ row }) => {
       const stock = row.original.stock
-      // const stock = parseInt(row.getValue("stock"));
 
       return (
         <div className="">
@@ -102,14 +109,19 @@ export const columns: ColumnDef<ProductTableColumns>[] = [
             <Ellipsis className="h-5 w-5" />
           </DropdownMenuTrigger>
           <DropdownMenuContent>
-            <Link to={id}>
+            <Link to={`${id}`}>
               <DropdownMenuItem>
                 View
               </DropdownMenuItem>
             </Link>
-            <DropdownMenuItem>
-              Delete
-            </DropdownMenuItem>
+            <Form id={`delete-product-${row.original.id}`} method="post">
+              <input type="hidden" name="id" value={row.original.id} />
+              <DropdownMenuItem >
+                <button form={`delete-product-${row.original.id}`} type="submit">
+                  Delete
+                </button>
+              </DropdownMenuItem>
+            </Form>
             <DropdownMenuItem>
               View
             </DropdownMenuItem>

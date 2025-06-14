@@ -120,7 +120,7 @@ export async function createProduct(submission: CreateProductDTO) {
   })
 
   if (product) {
-    return dataWithError("This product already exists.");
+    return dataWithError(null, "This product already exists.");
   }
 
   const createdProduct = await prisma.product.create({
@@ -142,7 +142,7 @@ export async function deleteProduct(id: string) {
   })
 
   if (!product) {
-    return dataWithError("This product does not exist.")
+    return dataWithError(null, "This product does not exist.")
   }
 
   await prisma.product.delete({

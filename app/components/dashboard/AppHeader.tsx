@@ -5,7 +5,6 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuShortc
 import { authClient } from "~/lib/auth.client"
 
 export function DashboardHeader() {
-  // This would typically come from your auth context or user session
   const userName = "Juan Dela Cruz"
   const userInitials = userName
     .split(" ")
@@ -18,10 +17,7 @@ export function DashboardHeader() {
       <SidebarTrigger className="-ml-1" />
       <Separator orientation="vertical" className="mr-2 h-4" />
 
-      {/* Header content - you can add breadcrumbs, search, etc. here */}
-      <div className="flex-1">{/* This space can be used for breadcrumbs, page title, etc. */}</div>
-
-      {/* User info with avatar */}
+      <div className="flex-1"></div>
       <div className="flex items-center gap-2">
         <span className="text-sm font-medium">{userName}</span>
         <Separator orientation="vertical" className="h-4" />
