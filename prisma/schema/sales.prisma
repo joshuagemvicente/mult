@@ -1,0 +1,18 @@
+model Sales {
+  id          String      @id @default(cuid())
+  totalAmount Float
+  paidAmount  Float
+  change      Float
+  createdAt   DateTime    @default(now())
+  items       SalesItem[]
+}
+
+model SalesItem {
+  id        String  @id @default(cuid())
+  quantity  Int
+  price     Float
+  productId String
+  salesId   String
+  sales     Sales   @relation(fields: [salesId], references: [id])
+  product   Product @relation(fields: [productId], references: [id])
+}

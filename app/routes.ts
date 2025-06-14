@@ -11,9 +11,10 @@ layout("./routes/modules/_layout.tsx", [
     index("./routes/modules/dashboard/_index.tsx"),
     route("products", "./routes/modules/dashboard/products/_index.tsx", [
       route(":productId", "./routes/modules/dashboard/products/$id.tsx"),
-      route("add", "./routes/modules/dashboard/products/add.tsx")
-
+      route("add", "./routes/modules/dashboard/products/add.tsx"),
+      route("barcode", "./routes/modules/dashboard/products/barcode.tsx")
     ]),
+    route("inventory", "./routes/modules/dashboard/inventory/_index.tsx"),
   ])
 ]),
 

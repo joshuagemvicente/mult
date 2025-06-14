@@ -14,7 +14,7 @@ export type ProductTableColumns = {
   brand: string | null;
   price: number;
   stock: number;
-  imageUrl: string | null;
+  imageUrl: string | null | undefined;
   createdAt: string;
   updatedAt: string;
 };
@@ -109,7 +109,7 @@ export const columns: ColumnDef<ProductTableColumns>[] = [
             <Ellipsis className="h-5 w-5" />
           </DropdownMenuTrigger>
           <DropdownMenuContent>
-            <Link to={`${id}`}>
+            <Link to={`/dashboard/products/${id}`}>
               <DropdownMenuItem>
                 View
               </DropdownMenuItem>
@@ -122,10 +122,6 @@ export const columns: ColumnDef<ProductTableColumns>[] = [
                 </button>
               </DropdownMenuItem>
             </Form>
-            <DropdownMenuItem>
-              View
-            </DropdownMenuItem>
-
           </DropdownMenuContent>
         </DropdownMenu >
       )

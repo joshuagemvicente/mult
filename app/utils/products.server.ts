@@ -103,6 +103,39 @@ export async function getProductById(id: string) {
   return product ? product : data("This product does not exist.");
 }
 
+export async function getProductBySku(sku: string) {
+  const product = await prisma.product.findFirst({
+    where: {
+      sku
+    }
+  });
+
+  return product || null;
+}
+
+export async function incrementProductStockBySku(sku: string, quantity: number = 1) {
+  try {
+    const product = await prisma.product.findFirst({
+      where: { sku }
+    });
+
+    if (!product) {
+      return dataWithError(null, `Product with SKU ${sku} not found`);
+    }
+
+    const updatedProduct = await prisma.product.update({
+      where: { id: product.id },
+      data: {
+        stock: product.stock + quantity
+      }
+    });
+
+    return data(updatedProduct);
+  } catch (error) {
+    console.error("Error incrementing product stock:", error);
+    return dataWithError(null, "Failed to update product stock");
+  }
+}
 
 export async function createProduct(submission: CreateProductDTO) {
 

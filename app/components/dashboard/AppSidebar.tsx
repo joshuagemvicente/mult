@@ -50,7 +50,7 @@ const collapsibleItems = [
       },
       {
         title: "Inventory",
-        url: "/dashboard/products/inventory",
+        url: "/dashboard/inventory",
       },
       {
         title: "Categories",

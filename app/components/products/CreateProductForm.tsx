@@ -1,10 +1,9 @@
-import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "../ui/select";
-import { LoaderCircle } from "lucide-react";
+
 import { Button } from "../ui/button";
 import { Form } from "react-router";
 import { Label } from "../ui/label";
 import { DialogContent, DialogHeader, DialogTitle } from "../ui/dialog";
-import { useForm, getInputProps, getFormProps, getTextareaProps } from "@conform-to/react";
+import { useForm, getInputProps, getFormProps } from "@conform-to/react";
 import { Input } from "../ui/input";
 import { parseWithZod } from "@conform-to/zod";
 import { CreateProductSchema } from "~/dtos/products/createProduct.dto";
@@ -19,7 +18,7 @@ export function CreateProductForm() {
   })
   return (
     <DialogContent
-      className="lg:min-w-3xl md:min-w-2xl min-w-lg p-0 space-y-3 pb-10 "
+      className="lg:min-w-3xl md:min-w-2xl min-w-lg p-0 space-y-3 pb-10"
     >
       <DialogHeader className="flex flex-row items-center bg-(--app-primary) p-5 rounded-t-md outline-none mb-0">
         <div className="flex items-center text-white">
